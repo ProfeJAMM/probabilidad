@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso de Probabilidad - EBAU Murcia</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800&display=swap"
+        rel="stylesheet">
+
+    <!-- MathJax for rendering LaTeX -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)'], ['$', '$']],
+                displayMath: [['\\[', '\\]'], ['$$', '$$']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-color: #f4f7f6;
+            --surface: #ffffff;
+            --text-main: #2d3748;
+            --text-light: #718096;
+            --primary: #4338ca;
+            --primary-light: #e0e7ff;
+            --secondary: #0ea5e9;
+            --accent: #f59e0b;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+            /* Variables del Logo JPi */
+            --logo-primary-light: #6366f1;
+            --logo-primary-dark: #312e81;
+            --logo-accent: #facc15;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.7;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* --- CLASES CSS DEL LOGO JPi --- */
+        .css-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--logo-primary-dark), var(--logo-primary-light));
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+            flex-shrink: 0;
+            user-select: none;
+        }
+
+        .css-logo span {
+            color: var(--logo-accent);
+            margin-left: 2px;
+        }
+
+        .css-logo-small {
+            width: 45px;
+            height: 45px;
+            font-size: 1.4rem;
+        }
+
+        .css-logo-large {
+            width: 80px;
+            height: 80px;
+            font-size: 2.5rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+        }
+
+        /* --- Sidebar Navigation --- */
+        .sidebar {
+            width: 320px;
+            background-color: var(--surface);
+            border-right: 1px solid var(--border);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            padding: 2.5rem 2rem;
+            z-index: 50;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .brand {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.875rem 1rem;
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            transform: translateX(4px);
+        }
+
+        .nav-link.active {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(67, 56, 202, 0.3);
+        }
+
+        .sidebar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* --- Main Content Area --- */
+        .main-content {
+            flex: 1;
+            margin-left: 320px;
+            padding: 4rem 10%;
+            max-width: 1200px;
+            background-color: var(--bg-color);
+        }
+
+        /* Top Header */
+        .page-header {
+            margin-bottom: 4rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .page-header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .page-header p {
+            font-size: 1.25rem;
+            color: var(--text-light);
+        }
+
+        /* Sections and Typography */
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 2rem;
+        }
+
+        h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.25rem;
+            color: var(--text-main);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--primary-light);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        h2 span.section-number {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        p {
+            margin-bottom: 1.25rem;
+            font-size: 1.05rem;
+        }
+
+        .important-text {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* Feature Boxes (Definitions, Theorems, Examples) */
+        .box {
+            background: var(--surface);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .box:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        .box::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+        }
+
+        .box-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Box Variants */
+        .box.definition::before {
+            background-color: var(--primary);
+        }
+
+        .box.definition .box-title {
+            color: var(--primary);
+        }
+
+        .box.theorem::before {
+            background-color: var(--accent);
+        }
+
+        .box.theorem .box-title {
+            color: var(--accent);
+        }
+
+        .box.example::before {
+            background-color: #10b981;
+        }
+
+        .box.example .box-title {
+            color: #059669;
+        }
+
+        .box.example {
+            background-color: #f0fdf4;
+            border: 1px solid #d1fae5;
+            overflow-x: auto;
+        }
+
+        /* Proof Button & Content */
+        .proof-btn {
+            background-color: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--border);
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .proof-btn:hover,
+        .proof-btn.active {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .proof-btn.active {
+            background-color: #fffbeb;
+        }
+
+        .proof-btn i {
+            transition: transform 0.3s;
+        }
+
+        .proof-btn.active i {
+            transform: rotate(180deg);
+        }
+
+        .proof-content {
+            display: none;
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background-color: #f8fafc;
+            border-radius: 8px;
+            border: 1px dashed var(--border);
+        }
+
+        .proof-content.open {
+            display: block;
+        }
+
+        ul {
+            list-style-position: inside;
+            margin-left: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        ul.custom-list {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        ul.custom-list li {
+            position: relative;
+            padding-left: 1.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        ul.custom-list li::before {
+            content: '\f105';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+        }
+
+        /* --- Reproductor de Video Flotante --- */
+        .video-link {
+            color: var(--accent);
+            text-decoration: underline;
+            text-decoration-style: dotted;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .video-link:hover {
+            color: var(--primary);
+        }
+
+        .video-modal {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 40vw;
+            /* 40% del ancho de la página */
+            height: calc(40vw * 9 / 16 + 40px);
+            /* Proporción 16:9 para el video + espacio para el botón */
+            background: var(--surface);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: opacity 0.3s, transform 0.3s;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-20px);
+        }
+
+        .video-modal.show {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .video-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .video-modal-header button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .video-modal-header button:hover {
+            transform: scale(1.1);
+        }
+
+        .video-modal iframe {
+            flex: 1;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Ajuste para móviles: si la pantalla es muy pequeña, que ocupe más para poder verse bien */
+        @media (max-width: 768px) {
+            .video-modal {
+                width: 90vw;
+                height: calc(90vw * 9 / 16 + 40px);
+                right: 5vw;
+                top: 10px;
+            }
+        }
+
+        /* Math Styling Specific */
+        .math-container {
+            overflow-x: auto;
+            padding: 1rem 0;
+        }
+
+        /* Utility classes */
+        .img-fluid {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .rounded {
+            border-radius: var(--radius-md);
+        }
+
+        .mb-3 {
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 260px;
+            }
+
+            .main-content {
+                margin-left: 260px;
+                padding: 3rem 5%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 2rem 5%;
+            }
+
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar / Interactive Index -->
+    <nav class="sidebar">
+        <div class="brand">
+            <div class="css-logo css-logo-small">J<span>&pi;</span></div>
+            Probabilidad
+        </div>
+        <ul>
+            <li><a href="#definiciones" class="nav-link">1. Definiciones</a></li>
+            <li><a href="#sucesos" class="nav-link">2. Sucesos</a></li>
+            <li><a href="#probabilidad-def" class="nav-link">3. Regla de Laplace</a></li>
+            <li><a href="#probabilidad-total" class="nav-link">4. Probabilidad total</a></li>
+            <li><a href="#bayes" class="nav-link">5. Teorema de Bayes</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="page-header">
+            <div class="css-logo css-logo-large" style="margin-bottom: 1.5rem;">J<span>&pi;</span></div>
+            <h1>Probabilidad EBAU</h1>
+            <p>Curso interactivo de Probabilidad para Matemáticas II de 2º de Bachillerato (Región de Murcia).</p>
+        </header>
+
+        <!-- Seccion 1 -->
+        <section id="definiciones">
+            <h2><span class="section-number">1</span> Definiciones</h2>
+            <p>Para estudiar las leyes del azar, necesitamos definir unos conceptos básicos fundamentales que nos
+                permitan modelizar problemas reales matemáticamente.</p>
+
+            <div class="box definition">
+                <div class="box-title"><i class="fa-solid fa-book"></i> Conceptos Básicos</div>
+                <ul class="custom-list">
+                    <li><strong>Experimento aleatorio:</strong> Es una prueba de la que no se puede predecir el
+                        resultado final con certeza repitiéndolo en las mismas condiciones. Por ejemplo, lanzar un dado
+                        de parchís.</li>
+                    <li><strong>Espacio muestral \(E\) (\(\Omega\)):</strong> Es el conjunto formado por todos los
+                        resultados posibles de un experimento aleatorio. En el lanzamiento del dado, \( E = \{1, 2, 3,
+                        4, 5, 6\} \).</li>
+                    <li><strong>Suceso:</strong> Cualquier subconjunto del espacio muestral. Puede ser
+                        <em>elemental</em> (un único resultado) o <em>compuesto</em> (varios resultados, ej: obtener un
+                        número par).
+                    </li>
+                </ul>
+            </div>
+
+            <div class="box example">
+                <div class="box-title"><i class="fa-solid fa-graduation-cap"></i> Ejercicio EBAU Resuelto - Julio 2021
+                    (Cuestión 7)</div>
+                <div class="enunciado">
+                    <p>Una urna contiene cinco bolas negras, numeradas del 1 al 5, y siete bolas blancas, numeradas del
+                        1 al 7. Se saca de la urna una bola al azar. Calcule:</p>
+                    <p>a) La probabilidad de que la bola sea blanca.<br>
+                        b) La probabilidad de que la bola esté numerada con un número par.<br>
+                        c) La probabilidad de que la bola esté numerada con un número par, sabiendo que es una bola
+                        blanca.<br>
+                        d) La probabilidad de que la bola sea blanca y esté numerada con un número par.<br>
+                        e) La probabilidad de que la bola sea blanca, sabiendo que está numerada con un número par.</p>
+                </div>
+                <button class="proof-btn" onclick="toggleProof(this)">
+                    <i class="fa-solid fa-eye"></i> Mostrar Resolución
+                </button>
+                <div class="proof-content">
+                    <p>Llamaremos \(N\) al suceso "sacar bola negra" (hay 5) y \(B\) al suceso "sacar bola blanca" (hay
+                        7). El total de bolas es 12.</p>
+                    <p>Las bolas negras son \( \{1, 2, 3, 4, 5\} \), de las cuales \( \{2, 4\} \) son pares (hay 2).<br>
+                        Las bolas blancas son \( \{1, 2, 3, 4, 5, 6, 7\} \), de las cuales \( \{2, 4, 6\} \) son pares
+                        (hay 3).<br>
+                        Llamaremos \(P\) al suceso "sacar número par".</p>
+                    <p><strong>a)</strong> La probabilidad de que la bola sea blanca:<br>
+                        \( p(B) = \frac{7}{12} \)</p>
+                    <p><strong>b)</strong> La probabilidad de que la bola esté numerada con un número par:<br>
+                        \( p(P) = \frac{5}{12} \)</p>
+                    <p><strong>c)</strong> La probabilidad de que la bola esté numerada con un número par, sabiendo que
+                        es una bola blanca:<br>
+                        \( p(P|B) = \frac{p(P \cap B)}{p(B)} = \frac{3/12}{7/12} = \frac{3}{7} \)</p>
+                    <p><strong>d)</strong> La probabilidad de que la bola sea blanca y esté numerada con un número
+                        par:<br>
+                        \( p(B \cap P) = \frac{3}{12} \)</p>
+                    <p><strong>e)</strong> La probabilidad de que la bola sea blanca, sabiendo que está numerada con un
+                        número par:<br>
+                        \( p(B|P) = \frac{p(B \cap P)}{p(P)} = \frac{3/12}{5/12} = \frac{3}{5} \)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seccion 2 -->
+        <section id="sucesos">
+            <h2><span class="section-number">2</span> Sucesos y Probabilidades</h2>
+            <p>Los sucesos pueden manipularse mediante las operaciones conjuntas matemáticas. Comprender la relación
+                analítica que existe entre ellos facilita notablemente el cálculo de sus probabilidades asociadas.</p>
+
+            <div class="box definition">
+                <div class="box-title"><i class="fa-solid fa-object-group"></i> Operaciones y Tipos de Sucesos</div>
+                <ul class="custom-list">
+                    <li><strong>Unión (\(A \cup B\)):</strong> Ocurre si sucede el suceso \(A\), sucede \(B\), o suceden
+                        ambos a la vez.</li>
+                    <li><strong>Intersección (\(A \cap B\)):</strong> Ocurre si suceden \(A\) y \(B\) estrictamente al
+                        mismo tiempo.</li>
+                    <li><strong>Suceso Contrario (\(\overline{A}\) o \(A^c\)):</strong> Ocurre cuando
+                        <strong>no</strong> sucede \(A\). Además \( p(A) + p(\overline{A}) = 1 \).
+                    </li>
+                    <li><strong>Incompatibles:</strong> Dos sucesos son incompatibles si no pueden ocurrir
+                        simultáneamente. Se traduce en \( A \cap B = \emptyset \), donde además \( p(A \cap B) = 0 \).
+                    </li>
+                    <li><strong>Independientes:</strong> La ocurrencia de uno no varía la probabilidad del otro. Se
+                        cumple rigurosamente que \( p(A \cap B) = p(A) \cdot p(B) \).</li>
+                </ul>
+            </div>
+
+            <div class="box theorem">
+                <div class="box-title"><i class="fa-solid fa-scale-balanced"></i> Leyes de De Morgan y Regla de la Suma
+                </div>
+                <p>Para dos sucesos cualesquiera \(A\) y \(B\), resultan de enorme utilidad las siguientes igualdades:
+                </p>
+                <div class="math-container">
+                    \[ p(A \cup B) = p(A) + p(B) - p(A \cap B) \]
+                    \[ p(\overline{A \cup B}) = p(\overline{A} \cap \overline{B}) \]
+                    \[ p(\overline{A \cap B}) = p(\overline{A} \cup \overline{B}) \]
+                </div>
+            </div>
+
+            <div class="box example">
+                <div class="box-title"><i class="fa-solid fa-graduation-cap"></i> Ejercicio EBAU Resuelto - Junio 2024
+                </div>
+                <div class="enunciado">
+                    <p>Una fábrica de componentes de ordenador produce 2500 microprocesadores al día. Sabiendo que el
+                        porcentaje de microprocesadores defectuosos fabricados es del 2 %, responda razonadamente a las
+                        siguientes cuestiones:</p>
+                    <p>a) ¿Qué distribución sigue la variable aleatoria que cuenta el número de microprocesadores
+                        defectuosos fabricados al día?</p>
+                    <p>b) Calcule la media y la desviación típica de esta distribución.</p>
+                    <p>c) ¿Cuál es la probabilidad de que en un día el número de microprocesadores defectuosos
+                        fabricados sea menor o igual que 57?</p>
+                    <p>d) ¿Cuál es la probabilidad de que en un día el número de microprocesadores defectuosos
+                        fabricados sea exactamente 50?</p>
+                </div>
+                <button class="proof-btn" onclick="toggleProof(this)">
+                    <i class="fa-solid fa-eye"></i> Mostrar Resolución
+                </button>
+                <div class="proof-content">
+                    <p>a) Estamos ante una distribución binomial donde contabilizamos el número de éxitos
+                        (defectuosos).<br>
+                        \( X \sim B(n, p) \implies X \sim B(2500, \, 0.02) \)</p>
+
+                    <p>b) Media: \( \mu = n \cdot p = 2500 \cdot 0.02 = 50 \). <br>
+                        Desviación típica: \( \sigma = \sqrt{n \cdot p \cdot q} = \sqrt{2500 \cdot 0.02 \cdot 0.98} =
+                        \sqrt{49} = 7 \)</p>
+
+                    <p>c) Como se cumple que \( n \cdot p = 50 > 5 \) y \( n \cdot q > 5 \), la binomial se puede
+                        aproximar a una distribución normal:<br>
+                        \( X' \sim N(50, 7) \)</p>
+                    <p>Para calcular \( p(X \le 57) \), aplicamos la <strong>corrección de Yates</strong> sumando
+                        0.5:<br>
+                        \( p(X \le 57) \approx p(X' \le 57.5) \)</p>
+                    <p>Tipificamos: \( z = \frac{x - \mu}{\sigma} = \frac{57.5 - 50}{7} \approx 1.07 \)</p>
+                    <p>\( p(Z \le 1.07) = 0.8577 \)</p>
+
+                    <p>d) Probabilidad exacta de \( X = 50 \):<br>
+                        Fórmula binomial: \( p(X = 50) = \binom{2500}{50} \cdot 0.02^{50} \cdot 0.98^{2450} \)</p>
+                    <p>Para calcularlo analíticamente, usamos la aproximación Normal con corrección de Yates:<br>
+                        \( p(X = 50) \approx p(49.5 \le X' \le 50.5) \)<br>
+                        \( = p(X' \le 50.5) - p(X' \le 49.5) \)</p>
+                    <p>Tipificando \( 50.5 \): \( z = \frac{50.5 - 50}{7} \approx 0.07 \implies p(Z \le 0.07) = 0.5279
+                        \)<br>
+                        Tipificando \( 49.5 \): \( z = \frac{49.5 - 50}{7} \approx -0.07 \implies p(Z \le -0.07) = 1 -
+                        0.5279 = 0.4721 \)</p>
+                    <p>\( 0.5279 - 0.4721 = 0.0558 \)</p>
+                </div>
+            </div>
+
+            <div class="box example">
+                <div class="box-title"><i class="fa-solid fa-graduation-cap"></i> Ejercicio EBAU Resuelto - Julio 2023
+                </div>
+                <div class="enunciado">
+                    <p>El cociente intelectual (CI) de los estudiantes de Bachillerato de la Región de Murcia sigue una
+                        distribución normal de media \(\mu\) y desviación típica \(\sigma\) desconocidas. Se sabe que el
+                        6,68 % de estos estudiantes tiene un CI mayor que 115 y que el 59,87 % tiene un CI menor que
+                        102,5.</p>
+                    <p>a) ¿Cuál es el porcentaje de estudiantes con CI entre 102,5 y 115?</p>
+                    <p>b) Si se eligen al azar 6 estudiantes, ¿cuál es la probabilidad de que al menos 5 de ellos tengan
+                        un CI menor que 115?</p>
+                    <p>c) Calcule la media y la desviación típica de esta distribución.</p>
+                </div>
+                <button class="proof-btn" onclick="toggleProof(this)">
+                    <i class="fa-solid fa-eye"></i> Mostrar Resolución
+                </button>
+                <div class="proof-content">
+                    <p>Nos dicen que estamos en una normal \( N(\mu, \sigma) \) y que \( p(X < 102.5)=0.5987 \) y que \(
+                            p(X> 115) = 0.0668 \).</p>
+                    <p><strong>a)</strong> La probabilidad pedida es el área comprendida entre esos dos valores. Como
+                        todo debe sumar 1:<br>
+                        \( p(102.5 < X < 115)=1 - p(X < 102.5) - p(X> 115) = 1 - 0.5987 - 0.0668 = 0.3345 \)<br>
+                            Por tanto, el <strong>33,45 %</strong> de los estudiantes.</p>
+
+                    <p><strong>b)</strong> La probabilidad de que un estudiante tenga CI menor que 115 es:<br>
+                        \( p(X < 115)=1 - p(X> 115) = 1 - 0.0668 = 0.9332 \)<br>
+                            Si se eligen 6, estamos ante una binomial \( Y \sim B(6, \, 0.9332) \). Piden \( p(Y \ge 5)
+                            \):<br>
+                            \( p(Y \ge 5) = p(Y = 5) + p(Y = 6) \)<br>
+                            \( p(Y \ge 5) = \binom{6}{5} \cdot (0.9332)^5 \cdot (0.0668)^1 + \binom{6}{6} \cdot
+                            (0.9332)^6 \cdot (0.0668)^0 \)<br>
+                            \( p(Y \ge 5) = 6 \cdot 0.7077 \cdot 0.0668 + 1 \cdot 0.6604 \cdot 1 \approx 0.2836 + 0.6604
+                            = 0.9440 \)</p>
+
+                    <p><strong>c)</strong> De la normal \( N(\mu, \sigma) \) sabemos que \( p(X < 102.5)=0.5987 \) y que
+                            \( p(X < 115)=0.9332 \).<br>
+                            Buscando en la tabla inversa de la normal \( N(0, 1) \):<br>
+                            Para \( 0.5987 \implies z_1 = 0.25 \)<br>
+                            Para \( 0.9332 \implies z_2 = 1.50 \)</p>
+                    <p>Sustituyendo en la fórmula de tipificación \( x = \mu + z \cdot \sigma \):<br>
+                        \( 102.5 = \mu + 0.25\sigma \)<br>
+                        \( 115 = \mu + 1.50\sigma \)</p>
+                    <p>Resolviendo el sistema restando las ecuaciones:<br>
+                        \( 115 - 102.5 = (1.50 - 0.25)\sigma \implies 12.5 = 1.25\sigma \implies \sigma = 10 \)<br>
+                        Sustituimos para hallar \(\mu\):<br>
+                        \( 115 = \mu + 10 \cdot 1.50 \implies 115 = \mu + 15 \implies \mu = 100 \)</p>
+                </div>
+            </div>
+
+            <div class="box example">
+                <div class="box-title"><i class="fa-solid fa-graduation-cap"></i> Ejercicio EBAU Resuelto - Julio 2022
+                    (Álgebra)</div>
+                <div class="enunciado">
+                    <p>Un estudio publicado ha revelado que la probabilidad de contraer el Covid-19 en el interior de
+                        restaurantes es 0,45. Además, según los datos, en el mundo hay un 50,5 % de hombres y un 49,5 %
+                        de mujeres.</p>
+                    <p>a) Suponiendo que los sucesos "contraer el Covid-19 en el interior" y "ser mujer" sean
+                        independientes, calcule la probabilidad de que una persona elegida al azar sea mujer y contraiga
+                        el Covid-19.</p>
+                    <p>b) En el mismo supuesto, calcule la probabilidad de que una persona elegida al azar no sea mujer
+                        o no contraiga el Covid-19.</p>
+                    <p>c) Si se eligen 8 personas al azar, ¿cuál es la probabilidad de que al menos 4 de ellas
+                        contraigan el Covid-19 en el interior de restaurantes?</p>
+                </div>
+                <button class="proof-btn" onclick="toggleProof(this)">
+                    <i class="fa-solid fa-eye"></i> Mostrar Resolución
+                </button>
+                <div class="proof-content">
+                    <p>Consideramos los sucesos: \(M\) (ser mujer), \(V\) (ser varón), \(D\) (contraer Covid-19).<br>
+                        Probabilidades: \( p(M) = 0.495 \), \( p(V) = 0.505 \), \( p(D) = 0.45 \).</p>
+
+                    <p><strong>a)</strong> Como \(M\) y \(D\) son independientes, la probabilidad de la intersección es
+                        el producto de probabilidades:<br>
+                        \( p(M \cap D) = p(M) \cdot P(D) = 0.495 \cdot 0.45 = 0.22275 \)</p>
+
+                    <p><strong>b)</strong> Que no sea mujer o no contraiga el Covid-19 se expresa como \( \overline{M}
+                        \cup \overline{D} \).<br>
+                        Por las Leyes de De Morgan, esto equivale al suceso complementario de la intersección: \(
+                        \overline{M \cap D} \).<br>
+                        \( p(\overline{M} \cup \overline{D}) = 1 - p(M \cap D) = 1 - 0.22275 = 0.77725 \)</p>
+
+                    <p><strong>c)</strong> Estamos ante una binomial \( X \sim B(8, \, 0.45) \) y nos piden \( p(X \ge
+                        4) \).<br>
+                        \( p(X \ge 4) = 1 - p(X \le 3) = 1 - [ p(X = 0) + p(X = 1) + p(X = 2) + p(X = 3) ] \)<br>
+                        Aplicando la fórmula \( p(X = x) = \binom{n}{x} \cdot p^x \cdot q^{n-x} \):<br>
+                        \( p(X=0) = \binom{8}{0} \cdot (0.45)^0 \cdot (0.55)^8 \approx 0.0084 \)<br>
+                        \( p(X=1) = \binom{8}{1} \cdot (0.45)^1 \cdot (0.55)^7 \approx 0.0548 \)<br>
+                        \( p(X=2) = \binom{8}{2} \cdot (0.45)^2 \cdot (0.55)^6 \approx 0.1569 \)<br>
+                        \( p(X=3) = \binom{8}{3} \cdot (0.45)^3 \cdot (0.55)^5 \approx 0.2568 \)<br>
+                        <br>
+                        \( p(X \le 3) = 0.0084 + 0.0548 + 0.1569 + 0.2568 = 0.4769 \)<br>
+                        \( p(X \ge 4) = 1 - 0.4769 = 0.5231 \)
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seccion 3 -->
+        <section id="probabilidad-def">
+            <h2><span class="section-number">3</span> Regla de Laplace</h2>
+            <p>La probabilidad es una medida cuantitativa que nos indica la certeza o duda de que un suceso dado ocurra.
+                El modelo matemático clásico más elemental es el introducido por Laplace para espacios equiprobables.
+            </p>
+
+            <div class="box definition">
+                <div class="box-title"><i class="fa-solid fa-book"></i> Regla de Laplace</div>
+                <p>Si un experimento aleatorio tiene un espacio muestral finito en el que todos los sucesos elementales
+                    son <strong>equiprobables</strong> (tienen la misma probabilidad de ocurrir), la probabilidad de un
+                    suceso \(A\) se define como el cociente entre los casos favorables al suceso y los casos posibles
+                    del experimento:</p>
+                <div class="math-container">
+                    \[ p(A) = \frac{\text{número de casos favorables}}{\text{número de casos posibles}} \]
+                </div>
+                <p>La probabilidad es siempre un número real comprendido en el intervalo \([0, 1]\). Un suceso imposible
+                    tendrá probabilidad \(0\) y un suceso seguro tendrá probabilidad \(1\).</p>
+            </div>
+
+            <div class="box example">
+                <div class="box-title"><i class="fa-solid fa-graduation-cap"></i> Ejercicio EBAU Resuelto - Junio 2024
+                    (Cuestión 7)</div>
+                <div class="enunciado">
+                    <p>El juego de los dados de Efron tiene 4 dados diferentes. Todos ellos son dados perfectos de 6
+                        caras equiprobables, pero la numeración de sus 6 caras es diferente en cada uno:</p>
+                    <ul>
+                        <li><strong>Dado A:</strong> 0, 0, 4, 4, 4, 4</li>
+                        <li><strong>Dado B:</strong> 3, 3, 3, 3, 3, 3</li>
+                        <li><strong>Dado C:</strong> 2, 2, 2, 2, 6, 6</li>
+                        <li><strong>Dado D:</strong> 1, 1, 1, 5, 5, 5</li>
+                    </ul>
+                    <p>Ana elige el dado A, Bea elige el dado B, Ceci elige el dado C y Delia elige el dado D. El juego
+                        consiste en que cada jugador lanza su dado, gana aquel que saque la mayor puntuación y pierde
+                        aquel que saque la menor puntuación. Pueden jugar uno contra uno o todos contra todos. Calcule:
+                    </p>
+                    <p>a) Si Ana juega contra Bea, ¿cuál es la probabilidad de que gane Ana?<br>
+                        b) Si Ana juega contra Bea 8 veces, ¿cuál es la probabilidad de que Bea gane al menos 3
+                        veces?<br>
+                        c) Si Ana juega contra Ceci, ¿cuál es la probabilidad de que gane Ceci?<br>
+                        d) Si juegan todos contra todos, ¿cuál es la probabilidad de que Ana ni gane ni pierda?</p>
+                </div>
+                <button class="proof-btn" onclick="toggleProof(this)">
+                    <i class="fa-solid fa-eye"></i> Mostrar Resolución
+                </button>
+                <div class="proof-content">
+                    <p>Llamamos \(0A\) al suceso salir 0 en el dado A de Ana, \(4A\) al suceso salir 4 en el dado A de
+                        Ana, etc.</p>
+                    <p><strong>a)</strong> La probabilidad de que gane Ana es la de que salga un 4 cuando tira su dado,
+                        ya que Bea siempre saca 3. Usando la Regla de Laplace en el Dado A (4 casos favorables de
+                        6):<br>
+                        \[ p(4A) = \frac{4}{6} = \frac{2}{3} \]</p>
+                    <p><strong>b)</strong> Estamos ante una binomial. Consideramos éxito que gane Bea, cuya probabilidad
+                        es \(1 - \frac{2}{3} = \frac{1}{3}\). Sea \(X \sim B(8, 1/3)\), que gane Bea al menos tres veces
+                        es \(p(X \geq 3)\), lo hacemos por complementario: \(p(X \geq 3) = 1 - p(X \leq 2)\).<br>
+                        \[ p(X \leq 2) = p(X = 0) + p(X = 1) + p(X = 2) \]<br>
+                        \[ = \binom{8}{0}\left(\frac{2}{3}\right)^8 +
+                        \binom{8}{1}\left(\frac{1}{3}\right)\left(\frac{2}{3}\right)^7 +
+                        \binom{8}{2}\left(\frac{1}{3}\right)^2\left(\frac{2}{3}\right)^6 \]<br>
+                        \[ \approx 0.0390 + 0.1561 + 0.2731 = 0.4682 \]<br>
+                        Por tanto: \(p(X \geq 3) = 1 - 0.4682 = 0.5318\)</p>
+                    <p><strong>c)</strong> Que gane Ceci frente a Ana es el suceso "Ana saca 0" unión "Ana saca 4 y Ceci
+                        saca 6", es decir, \( 0A \cup (4A \cap 6C) \):<br>
+                        \[ p(\text{Ceci gana a Ana}) = \frac{2}{6} + \left( \frac{4}{6} \cdot \frac{2}{6} \right) =
+                        \frac{2}{6} + \frac{8}{36} = \frac{20}{36} = \frac{5}{9} \]</p>
+                    <p><strong>d)</strong> Que Ana no gane ni pierda significa que queda en medio. Como saca un 4 (la
+                        única forma de superar los 3 de B y oponer resistencia), el único suceso posible donde ni gana
+                        ni pierde (quedando por detrás del 5D o 6C) es la unión de dos casos incompatibles: \( (4A \cap
+                        3B \cap 6C \cap 1D) \cup (4A \cap 3B \cap 2C \cap 5D) \).<br>
+                        Recordemos que la probabilidad de 3B es 1 porque Bea siempre saca 3.<br>
+                        \[ p(\text{medio}) = \left( \frac{4}{6} \cdot 1 \cdot \frac{2}{6} \cdot \frac{3}{6} \right) +
+                        \left( \frac{4}{6} \cdot 1 \cdot \frac{4}{6} \cdot \frac{3}{6} \right) = \frac{24}{216} +
+                        \frac{48}{216} = \frac{72}{216} = \frac{1}{3} \]</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seccion 4 -->
+        <section id="probabilidad-total">
+            <h2><span class="section-number">4</span> Probabilidad total</h2>
+            <p>El teorema de la probabilidad total nos permite calcular la probabilidad de un suceso a partir de
+                probabilidades condicionadas relativas a un sistema completo de sucesos que actúan como particiones del
+                espacio muestral (generalmente se visualiza en diagramas de árbol).</p>
+
+            <div class="box theorem">
+                <div class="box-title">
+                    <i class="fa-solid fa-gavel"></i>
+                    <a class="video-link" onclick="openVideo(event, 'https://www.youtube.com/embed/ABWl9Ncd8PY')"
+                        title="Ver explicación en video">Teorema de la Probabilidad Total</a>
+                </div>
+                <p>Sea \( \{A_1, A_2, \dots, A_n\} \) un sistema completo de sucesos (es decir, cubren todo el espacio
+                    muestral y son incompatibles dos a dos) y sea \(B\) un suceso cualquiera del que se conocen las
+                    probabilidades condicionadas \( p(B|A_i) \). Entonces:</p>
+                <div class="math-container">
+                    \[ p(B) = p(A_1) \cdot p(B|A_1) + p(A_2) \cdot p(B|A_2) + \dots + p(A_n) \cdot p(B|A_n) \]
+                    \[ p(B) = \sum_{i=1}^{n} p(A_i) \cdot p(B|A_i) \]
+                </div>
+            </div>
+
+            <div class="box example">
+                <div class="box-title"><i class="fa-solid fa-graduation-cap"></i> Ejercicio EBAU Resuelto - Julio 2023
+                    (Cuestión 7)</div>
+                <div class="enunciado">
+                    <p>En un cine hay 3 salas y un total de 250 espectadores repartidos de la siguiente manera: 100
+                        espectadores en la sala A, 50 en la sala B y 100 en la sala C. Se sabe que la película de la
+                        sala A gusta al 80 % de los espectadores, la de la sala B al 20 % de los espectadores y la de la
+                        sala C al 60 % de los espectadores. A la salida de las tres películas se elige un espectador al
+                        azar. Calcule:</p>
+                    <p>a) La probabilidad de que el espectador haya estado en la sala C.<br>
+                        b) La probabilidad de que le haya gustado la película, sabiendo que ha estado en la sala C.<br>
+                        c) La probabilidad de que le haya gustado la película y haya estado en la sala C.<br>
+                        d) La probabilidad de que le haya gustado la película.<br>
+                        e) La probabilidad de que le haya gustado la película o haya estado en la sala C.</p>
+                </div>
+                <button class="proof-btn" onclick="toggleProof(this)">
+                    <i class="fa-solid fa-eye"></i> Mostrar Resolución
+                </button>
+                <div class="proof-content">
+                    <p>Consideramos el sistema completo de sucesos que representan en qué sala estaba el espectador:
+                        \(A, B, C\). Sea \(F\) el suceso "gustarle la película" y \(V\) lo contrario.</p>
+                    <p>Calculamos las probabilidades a priori:<br>
+                        \( p(A) = \frac{100}{250} = 0.4 \)<br>
+                        \( p(B) = \frac{50}{250} = 0.2 \)<br>
+                        \( p(C) = \frac{100}{250} = 0.4 \)</p>
+                    <p>Y las probabilidades condicionadas dadas:<br>
+                        \( p(F|A) = 0.8 \)<br>
+                        \( p(F|B) = 0.2 \)<br>
+                        \( p(F|C) = 0.6 \)</p>
+                    <p><strong>a)</strong> La probabilidad de que el espectador haya estado en la sala C es
+                        simplemente:<br>
+                        \( p(C) = 0.4 \)</p>
+                    <p><strong>b)</strong> Ya viene dada por el enunciado:<br>
+                        \( p(F|C) = 0.6 \)</p>
+                    <p><strong>c)</strong> De la fórmula de la probabilidad condicionada:<br>
+                        \( p(F \cap C) = p(C) \cdot p(F|C) = 0.4 \cdot 0.6 = 0.24 \)</p>
+                    <p><strong>d)</strong> Aplicamos rigurosamente el <strong>Teorema de la Probabilidad Total</strong>
+                        sobre el suceso \(F\):<br>
+                        \[ p(F) = p(A) \cdot p(F|A) + p(B) \cdot p(F|B) + p(C) \cdot p(F|C) \]<br>
+                        \[ p(F) = (0.4 \cdot 0.8) + (0.2 \cdot 0.2) + (0.4 \cdot 0.6) = 0.32 + 0.04 + 0.24 = 0.60 \]</p>
+                    <p><strong>e)</strong> Regla de la suma para la unión de sucesos:<br>
+                        \[ p(F \cup C) = p(F) + p(C) - p(F \cap C) = 0.60 + 0.40 - 0.24 = 0.76 \]</p>
+                </div>
+            </div>
+
+            <div class="box example">
+                <div class="box-title"><i class="fa-solid fa-graduation-cap"></i> Ejercicio EBAU Resuelto - Junio 2020
+                </div>
+                <div class="enunciado">
+                    <p>Una urna tiene 2 bolas blancas y 3 bolas rojas. Consideramos la variable aleatoria que cuenta el
+                        número de bolas blancas que se obtienen al repetir nueve veces el siguiente experimento: se saca
+                        una bola de la urna y, después de anotar el color, se devuelve la bola a la urna.</p>
+                    <p>a) ¿Qué tipo de distribución sigue dicha variable aleatoria y cuáles son sus parámetros?</p>
+                    <p>b) ¿Cuál es la media y la desviación típica de esta distribución?</p>
+                    <p>c) ¿Cuál es la probabilidad de que el número de bolas anotado sea menor o igual que 4?</p>
+                </div>
+                <button class="proof-btn" onclick="toggleProof(this)">
+                    <i class="fa-solid fa-eye"></i> Mostrar Resolución
+                </button>
+                <div class="proof-content">
+                    <p><strong>a)</strong> Al ser extracciones <strong>con devolución</strong>, la probabilidad de sacar
+                        bola blanca se mantiene constante. Estamos ante una variable aleatoria discreta \(X\) que sigue
+                        una distribución binomial \( B(n, p) \), donde \(X\) es el número de bolas blancas.<br>
+                        Tenemos \( n = 9 \) repeticiones y \( p = \frac{2}{5} = 0.4 \) de probabilidad de éxito.
+                        Parámetros: \( X \sim B(9, \, 0.4) \).</p>
+
+                    <p><strong>b)</strong> Los parámetros de la binomial se calculan como:<br>
+                        Media: \( \mu = n \cdot p = 9 \cdot 0.4 = 3.6 \)<br>
+                        Varianza: \( \sigma^2 = n \cdot p \cdot q = 9 \cdot 0.4 \cdot 0.6 = 2.16 \)<br>
+                        Desviación típica: \( \sigma = \sqrt{2.16} \approx 1.4697 \)</p>
+
+                    <p><strong>c)</strong> Nos piden \( p(X \le 4) = p(X = 0) + p(X = 1) + p(X = 2) + p(X = 3) + p(X =
+                        4) \). Usando la fórmula puntual \( p(X = x) = \binom{n}{x} p^x q^{n-x} \):</p>
+                    <p>\( p(X = 0) = \binom{9}{0} \cdot (0.4)^0 \cdot (0.6)^9 \approx 0.0101 \)<br>
+                        \( p(X = 1) = \binom{9}{1} \cdot (0.4)^1 \cdot (0.6)^8 \approx 0.0605 \)<br>
+                        \( p(X = 2) = \binom{9}{2} \cdot (0.4)^2 \cdot (0.6)^7 \approx 0.1612 \)<br>
+                        \( p(X = 3) = \binom{9}{3} \cdot (0.4)^3 \cdot (0.6)^6 \approx 0.2508 \)<br>
+                        \( p(X = 4) = \binom{9}{4} \cdot (0.4)^4 \cdot (0.6)^5 \approx 0.2508 \)</p>
+                    <p>Sumando todo obtenemos: \( p(X \le 4) = 0.0101 + 0.0605 + 0.1612 + 0.2508 + 0.2508 = 0.7334 \).
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seccion 5 -->
+        <section id="bayes">
+            <h2><span class="section-number">5</span> Teorema de Bayes</h2>
+            <p>Mientras que la probabilidad total nos permite ir "hacia adelante" en una sucesión de eventos, el Teorema
+                de Bayes nos permite ir "hacia atrás", esto es, sabiendo que un efecto final ha ocurrido, calcular la
+                probabilidad de que la causa provenga de un evento anterior concreto (probabilidad a posteriori).</p>
+
+            <div class="box theorem">
+                <div class="box-title"><i class="fa-solid fa-gavel"></i> Teorema de Bayes</div>
+                <p>En las mismas condiciones que el Teorema de la Probabilidad Total, la probabilidad de que haya
+                    ocurrido \(A_i\) sabiendo que <strong>ya ha ocurrido</strong> el suceso final \(B\) se calcula como:
+                </p>
+                <div class="math-container">
+                    \[ p(A_i | B) = \frac{p(A_i \cap B)}{p(B)} = \frac{p(A_i) \cdot p(B|A_i)}{p(A_1) \cdot p(B|A_1) +
+                    \dots + p(A_n) \cdot p(B|A_n)} \]
+                </div>
+            </div>
+
+            <div class="box example">
+                <div class="box-title"><i class="fa-solid fa-graduation-cap"></i> Ejercicio EBAU Resuelto - Junio 2023
+                    (Cuestión 7)</div>
+                <div class="enunciado">
+                    <p>Dos urnas A y B contienen bolas de colores con la siguiente composición: La urna A contiene 3
+                        bolas verdes, 3 bolas rojas y 4 bolas negras, y la urna B contiene 1 bola verde, 3 bolas rojas y
+                        5 bolas negras. Se saca al azar una bola de la urna A y se mete en la urna B. A continuación, se
+                        saca al azar una bola de la urna B. Calcule:</p>
+                    <p>a) La probabilidad de que la bola que se saca de la urna B sea negra, sabiendo que la bola que se
+                        sacó de la urna A era verde.<br>
+                        b) La probabilidad de que la bola que se saca de la urna B sea negra.<br>
+                        c) La probabilidad de que la bola que se sacó de la urna A fuera verde, sabiendo que la bola que
+                        se ha sacado de la urna B ha sido negra.</p>
+                </div>
+                <button class="proof-btn" onclick="toggleProof(this)">
+                    <i class="fa-solid fa-eye"></i> Mostrar Resolución
+                </button>
+                <div class="proof-content">
+                    <p>Podemos representar este experimento en 2 etapas (extracción de urna A y extracción de urna B
+                        tras cambio):</p>
+                    <table style="width:100%; text-align:center; border-collapse: collapse; margin-bottom: 1rem;">
+                        <tr style="border-bottom: 2px solid var(--border);">
+                            <th style="padding: 0.5rem;">Urna A Inicial (10 bolas)</th>
+                            <th style="padding: 0.5rem;">Pasa a B</th>
+                            <th style="padding: 0.5rem;">Urna B Final (10 bolas)</th>
+                        </tr>
+                        <tr>
+                            <td rowspan="3" style="vertical-align: middle;">3 V, 3 R, 4 N</td>
+                            <td>Verde (\(V_A\))</td>
+                            <td>2 V, 3 R, 5 N</td>
+                        </tr>
+                        <tr>
+                            <td>Roja (\(R_A\))</td>
+                            <td>1 V, 4 R, 5 N</td>
+                        </tr>
+                        <tr>
+                            <td>Negra (\(N_A\))</td>
+                            <td>1 V, 3 R, 6 N</td>
+                        </tr>
+                    </table>
+
+                    <p><strong>a)</strong> Si se ha pasado una bola verde, la composición de la urna B es ahora de 2
+                        verdes, 3 rojas y 5 negras (total 10 bolas), por tanto:<br>
+                        \[ p(N_B | V_A) = \frac{5}{10} = \frac{1}{2} = 0.5 \]</p>
+
+                    <p><strong>b)</strong> Empleamos el <strong>Teorema de la Probabilidad Total</strong> con las
+                        distintas posibles extracciones en la urna A:<br>
+                        \[ p(N_B) = p(V_A) \cdot p(N_B | V_A) + p(R_A) \cdot p(N_B | R_A) + p(N_A) \cdot p(N_B | N_A)
+                        \]<br>
+                        \[ p(N_B) = \left( \frac{3}{10} \cdot \frac{5}{10} \right) + \left( \frac{3}{10} \cdot
+                        \frac{5}{10} \right) + \left( \frac{4}{10} \cdot \frac{6}{10} \right) = \frac{15 + 15 + 24}{100}
+                        = \frac{54}{100} = 0.54 \]</p>
+
+                    <p><strong>c)</strong> Se nos pide \( p(V_A | N_B) \). Tenemos un efecto al final del cual buscamos
+                        un evento origen. Es un caso clarísimo de aplicación del <strong>Teorema de Bayes</strong>:<br>
+                        \[ p(V_A | N_B) = \frac{p(V_A) \cdot p(N_B | V_A)}{p(N_B)} \]<br>
+                        Sustituyendo los valores ya hallados en los apartados previos:<br>
+                        \[ p(V_A | N_B) = \frac{\frac{3}{10} \cdot \frac{5}{10}}{0.54} = \frac{0.15}{0.54} =
+                        \frac{15}{54} = \frac{5}{18} \approx 0.2778 \]</p>
+                </div>
+            </div>
+
+            <div class="box example">
+                <div class="box-title"><i class="fa-solid fa-graduation-cap"></i> Ejercicio EBAU Resuelto - Julio 2021
+                </div>
+                <div class="enunciado">
+                    <p>Un estudio revela que el 10 % de los hombres son daltónicos y que el 1 % de las mujeres son
+                        daltónicas. Según los datos de las Naciones Unidas, en el mundo hay actualmente un 50,5 % de
+                        hombres y un 49,5 % de mujeres. Determine:</p>
+                    <p>a) La probabilidad de que una persona elegida al azar sea daltónica.</p>
+                    <p>b) Si una persona es daltónica, ¿cuál es la probabilidad de que sea mujer?</p>
+                    <p>c) ¿Son independientes los sucesos "ser una persona daltónica" y "ser mujer"?</p>
+                </div>
+                <button class="proof-btn" onclick="toggleProof(this)">
+                    <i class="fa-solid fa-eye"></i> Mostrar Resolución
+                </button>
+                <div class="proof-content">
+                    <p>Consideramos los sucesos: \(M\) (ser mujer), \(V\) (ser varón), \(D\) (ser daltónico).<br>
+                        Probabilidades conocidas: \( p(M) = 0.495 \), \( p(V) = 0.505 \).<br>
+                        Probabilidades condicionadas: \( p(D|M) = 0.01 \), \( p(D|V) = 0.10 \).</p>
+
+                    <p><strong>a)</strong> Teorema de la probabilidad total para el suceso \(D\):<br>
+                        \[ p(D) = p(M) \cdot p(D|M) + p(V) \cdot p(D|V) \]<br>
+                        \[ p(D) = 0.495 \cdot 0.01 + 0.505 \cdot 0.10 = 0.00495 + 0.0505 = 0.05545 \]</p>
+
+                    <p><strong>b)</strong> Teorema de Bayes para calcular la probabilidad a posteriori:<br>
+                        \[ p(M|D) = \frac{p(M \cap D)}{p(D)} = \frac{p(M) \cdot p(D|M)}{p(D)} \]<br>
+                        \[ p(M|D) = \frac{0.00495}{0.05545} \approx 0.08926 \]</p>
+
+                    <p><strong>c)</strong> Dos sucesos son independientes si se cumple que \( p(M \cap D) = p(M) \cdot
+                        p(D) \).<br>
+                        Calculamos la intersección: \( p(M \cap D) = p(M) \cdot p(D|M) = 0.00495 \).<br>
+                        Calculamos el producto: \( p(M) \cdot p(D) = 0.495 \cdot 0.05545 = 0.02744 \).<br>
+                        Como \( 0.00495 \neq 0.02744 \), podemos afirmar categóricamente que <strong>no son
+                            independientes</strong>.</p>
+                </div>
+            </div>
+
+            <div class="box example">
+                <div class="box-title"><i class="fa-solid fa-graduation-cap"></i> Ejercicio EBAU Resuelto - Junio 2020
+                </div>
+                <div class="enunciado">
+                    <p>Dos urnas A y B contienen bolas de colores con la siguiente composición: La urna A contiene 3
+                        bolas verdes, 4 negras y 3 rojas, y la urna B contiene 6 bolas verdes y 4 bolas negras. Además,
+                        se tiene un dado que tiene 2 caras marcadas con la letra A y 4 caras marcadas con la letra B. Se
+                        lanza el dado y se saca una bola al azar de la urna que indica el dado.</p>
+                    <p>a) ¿Cuál es la probabilidad de que esa bola sea verde?</p>
+                    <p>b) ¿Cuál es la probabilidad de que esa bola sea roja?</p>
+                    <p>c) Si bola extraída es verde, ¿cuál es la probabilidad de que proceda de la urna B?</p>
+                </div>
+                <button class="proof-btn" onclick="toggleProof(this)">
+                    <i class="fa-solid fa-eye"></i> Mostrar Resolución
+                </button>
+                <div class="proof-content">
+                    <p>Primero evaluamos las probabilidades de elegir cada urna basadas en el dado:<br>
+                        \( p(A) = \frac{2}{6} = \frac{1}{3} \)<br>
+                        \( p(B) = \frac{4}{6} = \frac{2}{3} \)</p>
+
+                    <p>La probabilidad de extraer cada color condicionado a la urna es:<br>
+                        Urna A (Total 10): \( p(V|A) = \frac{3}{10} \), \( p(N|A) = \frac{4}{10} \), \( p(R|A) =
+                        \frac{3}{10} \)<br>
+                        Urna B (Total 10): \( p(V|B) = \frac{6}{10} \), \( p(N|B) = \frac{4}{10} \), \( p(R|B) = 0 \)
+                    </p>
+
+                    <p><strong>a)</strong> Probabilidad Total de que sea verde:<br>
+                        \( p(V) = p(A) \cdot p(V|A) + p(B) \cdot p(V|B) \)<br>
+                        \( p(V) = \left( \frac{1}{3} \cdot \frac{3}{10} \right) + \left( \frac{2}{3} \cdot \frac{6}{10}
+                        \right) = \frac{3}{30} + \frac{12}{30} = \frac{15}{30} = \frac{1}{2} = 0.5 \)</p>
+
+                    <p><strong>b)</strong> Probabilidad Total de que sea roja:<br>
+                        \( p(R) = p(A) \cdot p(R|A) + p(B) \cdot p(R|B) \)<br>
+                        \( p(R) = \left( \frac{1}{3} \cdot \frac{3}{10} \right) + \left( \frac{2}{3} \cdot 0 \right) =
+                        \frac{3}{30} = \frac{1}{10} = 0.1 \)</p>
+
+                    <p><strong>c)</strong> Por el Teorema de Bayes, sabiendo que la bola es verde, probabilidad de urna
+                        B:<br>
+                        \( p(B|V) = \frac{p(B \cap V)}{p(V)} = \frac{p(B) \cdot p(V|B)}{p(V)} \)<br>
+                        \( p(B|V) = \frac{\frac{2}{3} \cdot \frac{6}{10}}{\frac{1}{2}} = \frac{12/30}{1/2} = \frac{12
+                        \cdot 2}{30 \cdot 1} = \frac{24}{30} = \frac{4}{5} = 0.8 \)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contenedor del Video Modal -->
+        <div id="video-modal" class="video-modal">
+            <div class="video-modal-header">
+                <span><i class="fa-brands fa-youtube" style="color: #facc15; margin-right: 8px;"></i>Explicación en
+                    Video</span>
+                <button onclick="closeVideo()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <iframe id="youtube-iframe" src=""
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+
+    </main>
+
+    <script>
+        // Funciones para el Video Modal
+        function openVideo(e, url) {
+            e.preventDefault();
+            const modal = document.getElementById('video-modal');
+            const iframe = document.getElementById('youtube-iframe');
+            iframe.src = url; // Carga el video de YouTube
+            modal.classList.add('show');
+        }
+
+        function closeVideo() {
+            const modal = document.getElementById('video-modal');
+            const iframe = document.getElementById('youtube-iframe');
+            modal.classList.remove('show');
+            // Retrasar el borrado del iframe para que coincida con el fin de la animación de opacidad
+            setTimeout(() => {
+                iframe.src = ''; // Detiene el video
+            }, 300);
+        }
+
+        // Toggle proofs
+        function toggleProof(btn) {
+            let el = btn.nextElementSibling;
+            while (el && !el.classList.contains('proof-content')) {
+                el = el.nextElementSibling;
+            }
+            if (el) {
+                if (el.classList.contains('open')) {
+                    el.classList.remove('open');
+                    btn.classList.remove('active');
+                } else {
+                    el.classList.add('open');
+                    btn.classList.add('active');
+                }
+            }
+        }
+
+        // Active link highlighting on scroll
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '-20% 0px -70% 0px',
+                threshold: 0
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => link.classList.remove('active'));
+                        const activeId = entry.target.getAttribute('id');
+                        const activeLink = document.querySelector(`.nav-link[href="#${activeId}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            document.documentElement.style.scrollBehavior = "smooth";
+        });
+    </script>
+</body>
+
+</html>
